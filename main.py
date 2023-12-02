@@ -68,6 +68,20 @@ def process(root, file):
     processed_code = "\n\n".join([get_comment(text.page_content) for text in texts])
     return processed_code
 
+def get_language(file):
+    if file.endswith(".py"):
+        return Language.PYTHON
+    elif file.endswith(".cpp"):
+        return Language.CPP
+    elif file.endswith(".java"):
+        return Language.JAVA
+    elif file.endswith(".c"):
+        return Language.C
+    elif file.endswith(".js"):
+        return Language.JAVASCRIPT
+    else:
+        return None
+
 def get_splitter(file):
     python_splitter = RecursiveCharacterTextSplitter.from_language(
         language=Language.PYTHON, chunk_size=2000, chunk_overlap=0
