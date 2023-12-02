@@ -1,6 +1,11 @@
+from enum import Enum
+class Language(Enum):
+    PYTHON = "python"
+    JAVA = "java"
+    CPP = "cpp"
+    JS = "js"
+
 CODE_PATH = "/home/dell/Projects/code-comments/data/Simple-Java-Calculator"
-
-
 CODE_TEMPLATE = """
 <context>
 程序员在写了代码之后忘记给代码注释. 但是一个代码又需要适量易读，且优美的注释。

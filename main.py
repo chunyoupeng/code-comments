@@ -60,12 +60,13 @@ def process(root, file):
     loader = TextLoader(os.path.join(root, file))
     documents = loader.load()
     print(documents)
-    splitter = get_splitter(file)
+    language = get_language(file)
+    splitter = get_splitter(language)
     # splitter = TextSplitter(chunk_size=2000, chunk_overlap=0)
     texts = splitter.split_documents(documents)
     # print(f"the current file is {file}")
     # print("\n".join([text.page_content for text in texts]))
-    processed_code = "\n\n".join([get_comment(text.page_content) for text in texts])
+    processed_code = "\n\n".join([get_comment(language, text.page_content) for text in texts])
     return processed_code
 
 def get_language(file):
@@ -75,14 +76,12 @@ def get_language(file):
         return Language.CPP
     elif file.endswith(".java"):
         return Language.JAVA
-    elif file.endswith(".c"):
-        return Language.C
     elif file.endswith(".js"):
-        return Language.JAVASCRIPT
+        return Language.JS
     else:
         return None
 
-def get_splitter(file):
+def get_splitter(language):
     python_splitter = RecursiveCharacterTextSplitter.from_language(
         language=Language.PYTHON, chunk_size=2000, chunk_overlap=0
     )
@@ -96,19 +95,24 @@ def get_splitter(file):
     Javascript_splitter = RecursiveCharacterTextSplitter.from_language(
         language=Language.JS, chunk_size=2000, chunk_overlap=0
     )
-    match file.split('.'):
-        case [_, 'py']:
+    match language:
+        case Language.PYTHON:
+            print("python splitter")
             return python_splitter
-        case [_, 'java']:
+        case Language.JAVA:
+            print("java splitter")
             return java_splitter
-        case [_, 'cpp']:
+        case Language.CPP:
+            print("cpp splitter")
             return cpp_splitter
-        case [_, 'js']:
+        case Language.JS:
+            print("js splitter")
             return Javascript_splitter
         case _:
             return None
+    
         
-def get_comment(code_str):
+def get_comment(language, code_str):
     prompt = ChatPromptTemplate.from_messages(
         [
             ("system", CODE_TEMPLATE),
@@ -125,12 +129,20 @@ def get_comment(code_str):
     chain = prompt | llm
     response = chain.invoke({"input": code_str})
     print(f"Response is {response.content}")
-    rt = extract_code(response.content)
+    rt = extract_code(language, response.content)
     return rt
 
 
-def extract_code(text):
-    pattern = r"```python(.*?)```"
+def extract_code(language, text):
+    language_patterns = {
+    'js': r'```(js|javascript)(.*?)```',
+    'python': r'```python(.*?)```',
+    'java': r'```jave(.*?)```',
+    'cpp': r'```cpp(.*?)```',
+}
+
+    pattern = language_patterns.get(language.value, r'```(\w+)\n(.*?)```')
+
     matches = re.findall(pattern, text, re.DOTALL)
     if not matches:
         return ""
