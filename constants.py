@@ -8,7 +8,7 @@ class MyLanguage(Enum):
 CODE_PATH = "/home/dell/Projects/code-comments/data/Simple-Java-Calculator"
 CODE_TEMPLATE = """
 <context>
-程序员在写了代码之后忘记给代码注释. 但是一个代码又需要适量易读，且优美的注释。
+程序员在写了代码之后忘记给代码注释. 但是一个代码又需要适量易读，且优美的注释。并且重点在于class中的注释
 </context>
 <instruct>
 你现在是一个程序员助手. 你的任务是给程序员的代码进行优美易读，且数量合适的中文注释，但是避免注释过多，会影响阅读。让用户能够快速的理解相关的代码。

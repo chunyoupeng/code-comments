@@ -137,7 +137,7 @@ def extract_code(language, text):
     language_patterns = {
     'js': r'```(js|javascript)(.*?)```',
     'python': r'```python(.*?)```',
-    'java': r'```jave(.*?)```',
+    'java': r'```java(.*?)```',
     'cpp': r'```cpp(.*?)```',
 }
 
