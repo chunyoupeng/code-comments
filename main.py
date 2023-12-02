@@ -49,23 +49,12 @@ def process_repository(source_repo, new_repo):
 
 
 def process(root, file):
-    # 这里是处理代码的函数，具体实现依据需要填写
-    # 示例：简单地返回原始代码
-    # loader = GenericLoader.from_filesystem(
-    #     root,
-    #     glob=file,
-    #     suffixes=[".py", ".cpp", ".java", ".c", ".js"],
-    #     parser=LanguageParser(),
-    # )
     loader = TextLoader(os.path.join(root, file))
     documents = loader.load()
     print(documents)
     language = get_language(file)
     splitter = get_splitter(language)
-    # splitter = TextSplitter(chunk_size=2000, chunk_overlap=0)
     texts = splitter.split_documents(documents)
-    # print(f"the current file is {file}")
-    # print("\n".join([text.page_content for text in texts]))
     processed_code = "\n\n".join([get_comment(language, text.page_content) for text in texts])
     return processed_code
 
