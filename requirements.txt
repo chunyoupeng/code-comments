@@ -1,0 +1,4 @@
+esprima
+langchain
+faiss-cpu
+openai
