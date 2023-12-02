@@ -71,13 +71,13 @@ def process(root, file):
 
 def get_language(file):
     if file.endswith(".py"):
-        return Language.PYTHON
+        return MyLanguage.PYTHON
     elif file.endswith(".cpp"):
-        return Language.CPP
+        return MyLanguage.CPP
     elif file.endswith(".java"):
-        return Language.JAVA
+        return MyLanguage.JAVA
     elif file.endswith(".js"):
-        return Language.JS
+        return MyLanguage.JS
     else:
         return None
 
@@ -96,16 +96,16 @@ def get_splitter(language):
         language=Language.JS, chunk_size=2000, chunk_overlap=0
     )
     match language:
-        case Language.PYTHON:
+        case MyLanguage.PYTHON:
             print("python splitter")
             return python_splitter
-        case Language.JAVA:
+        case MyLanguage.JAVA:
             print("java splitter")
             return java_splitter
-        case Language.CPP:
+        case MyLanguage.CPP:
             print("cpp splitter")
             return cpp_splitter
-        case Language.JS:
+        case MyLanguage.JS:
             print("js splitter")
             return Javascript_splitter
         case _:

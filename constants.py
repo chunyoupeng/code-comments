@@ -1,5 +1,5 @@
 from enum import Enum
-class Language(Enum):
+class MyLanguage(Enum):
     PYTHON = "python"
     JAVA = "java"
     CPP = "cpp"
