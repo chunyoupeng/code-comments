@@ -86,21 +86,20 @@ def get_splitter(language):
     Javascript_splitter = RecursiveCharacterTextSplitter.from_language(
         language=Language.JS, chunk_size=2000, chunk_overlap=0
     )
-    match language:
-        case MyLanguage.PYTHON:
-            print("python splitter")
-            return python_splitter
-        case MyLanguage.JAVA:
-            print("java splitter")
-            return java_splitter
-        case MyLanguage.CPP:
-            print("cpp splitter")
-            return cpp_splitter
-        case MyLanguage.JS:
-            print("js splitter")
-            return Javascript_splitter
-        case _:
-            return None
+    if language == MyLanguage.PYTHON:
+        print("python splitter")
+        return python_splitter
+    elif language == MyLanguage.JAVA:
+        print("java splitter")
+        return java_splitter
+    elif language == MyLanguage.CPP:
+        print("cpp splitter")
+        return cpp_splitter
+    elif language == MyLanguage.JS:
+        print("js splitter")
+        return Javascript_splitter
+    else:
+        return None
     
         
 def get_comment(language, code_str):
@@ -144,19 +143,19 @@ def extract_code(language, text):
         return ""
     return "\n".join(matches) 
 
-def main():
-    # 设置源仓库和新仓库的路径
-    source_repo_path = CODE_PATH
-    new_repo_path = './data/new_repo'  
+# def main():
+#     # 设置源仓库和新仓库的路径
+#     source_repo_path = CODE_PATH
+#     new_repo_path = './data/new_repo'  
 
-    # 确保新仓库目录存在
-    if not os.path.exists(new_repo_path):
-        os.makedirs(new_repo_path)
+#     # 确保新仓库目录存在
+#     if not os.path.exists(new_repo_path):
+#         os.makedirs(new_repo_path)
 
-    # 处理仓库
-    process_repository(source_repo_path, new_repo_path)
+#     # 处理仓库
+#     process_repository(source_repo_path, new_repo_path)
 
-    pprint("仓库处理完成。原仓库文件已复制并处理到新仓库。")
+#     pprint("仓库处理完成。原仓库文件已复制并处理到新仓库。")
 
-if __name__=='__main__':
-    main()
+# if __name__=='__main__':
+#     main()

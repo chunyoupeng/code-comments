@@ -1,4 +1,4 @@
-from main import *
+from process import *
 
 import streamlit as st
 import os
