@@ -2,3 +2,4 @@ esprima
 langchain
 faiss-cpu
 openai
+python-dotenv

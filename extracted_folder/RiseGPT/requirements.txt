@@ -1,9 +1,0 @@
-docx
-langchain
-python_docx
-streamlit
-tiktoken
-openai
-chromadb
-faiss-cpu
-pypdf

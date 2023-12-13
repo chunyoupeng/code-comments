@@ -2,6 +2,7 @@ import os
 import shutil
 from pprint import pprint 
 import warnings
+from dotenv import load_dotenv
 import re
 warnings.filterwarnings("ignore")
 from langchain.document_loaders import TextLoader
@@ -12,6 +13,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.text_splitter import TextSplitter
 from langchain.text_splitter import Language
 from langchain.schema.output_parser import StrOutputParser
+from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.memory import ConversationBufferMemory
 from langchain.chat_models import ChatOpenAI
 from langchain.llms import Ollama
@@ -102,6 +104,9 @@ def get_splitter(language):
     
         
 def get_comment(language, code_str):
+    load_dotenv()
+    key = os.getenv("OPENAI_API_KEY")
+    base = os.getenv("OPENAI_API_BASE")
     prompt = ChatPromptTemplate.from_messages(
         [
             ("system", CODE_TEMPLATE),
@@ -109,10 +114,12 @@ def get_comment(language, code_str):
         ]
     )
     llm = ChatOpenAI(
-        openai_api_base="https://aiapi.xing-yun.cn/v1",
-        openai_api_key="sk-RSAL5bknVmekLf005e714770B4Af431d821397F97d865cEb",
+        openai_api_base=base,
+        openai_api_key=key,
         model_name="gpt-3.5-turbo",
-        temperature=0
+        temperature=0,
+        streaming=True,
+        callbacks=[StreamingStdOutCallbackHandler()]
     )
     # llm = Ollama(model="yi:34b-chat")
     chain = prompt | llm
